@@ -1,0 +1,7 @@
+import os
+import shutil
+
+input_path = "/kaggle/input/你想要移动的文件夹"
+output_path = "/kaggle/working/请命名一个文件夹"
+
+shutil.copytree(input_path, output_path)
