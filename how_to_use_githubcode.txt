@@ -1,0 +1,5 @@
+**1**
+pip install -r requirements.txt
+如果代码中带着这么一个requirements.txt文件，通过控制台指令可以一步到位下载所有该代码（模型）所需要的各种软件包。
+
+**2**
