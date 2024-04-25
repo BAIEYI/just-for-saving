@@ -7,3 +7,8 @@ chmod 表示 “change mode”（更改模式），是用于改变文件或目�
 删除指令（Linux/Uinx）
 rm -r folder_path
 -r表示递归删除，即删除文件夹及其所有子目录和文件。
+
+
+显示当前目录的绝对路径
+pwd
+租的服务器的路径有时比较迷，虽然根目录为/，但在/后可能要加个root。比如本来是/autodl-tmp/...结果一输出才知道路径是/root/autodl-tmp/...
