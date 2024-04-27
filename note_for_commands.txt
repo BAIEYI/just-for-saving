@@ -12,3 +12,12 @@ rm -r folder_path
 显示当前目录的绝对路径
 pwd
 租的服务器的路径有时比较迷，虽然根目录为/，但在/后可能要加个root。比如本来是/autodl-tmp/...结果一输出才知道路径是/root/autodl-tmp/...
+
+
+将文件复制到指定位置
+cp example.txt /home/user/backup/
+复制当前目录下的一个文件example.txt到/home/user/backup目录下
+复制一个文件夹的话，要递归的进行：
+cp -r example.txt /home/user/backup/
+
+
