@@ -21,3 +21,13 @@ cp example.txt /home/user/backup/
 cp -r example.txt /home/user/backup/
 
 
+有的时候unzip指令解压缩很大的zip文件不知道为啥会报错（确定文件没有损坏的情况）
+遇到这种问题的时候，可以尝试使用7z来解压（成功案例+1）
+下载指令：
+sudo apt update
+sudo apt install p7zip-full
+使用方法：
+7z x filename.zip
+当然一般都是用于解压.7z文件的
+
+
