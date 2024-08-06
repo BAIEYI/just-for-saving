@@ -5,7 +5,7 @@
 <img src="layer_norm.png" alt="layer_norm" width="300">
 这里讲了一个layer_norm的东西（没错，在结构图中的“Add & Norm”的Norm指的就是layer_norm），以及与平时经常使用的batch_norm的区别。见图的左下即为普通的batch_norm，是对于batch中的每个特征向量进行normalization（均值变成0，方差变1）。<br>
 右下即为layer_norm的理解，但结合上面的图比较好理解，是对于每个 样本 来进行normlization。<br>
-
+<br><br>
 
 
 这里说了一些注意力机制的东西这里要进行额外的基础知识补全学习了。关于注意力机制：<br>
