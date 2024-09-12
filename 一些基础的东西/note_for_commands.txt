@@ -34,3 +34,9 @@ sudo apt install p7zip-full
 压缩文件：
 zip -r 压缩文件名.zip 要压缩的文件或目录
 之所以要压缩东西，因为服务器不支持直接下载文件夹。。。
+
+
+
+conda env list:显示所有conda虚拟环境列表
+conda deactivate：退出当前conda环境
+conda env remove --name envname：删除一个conda环境，envname为环境名称
