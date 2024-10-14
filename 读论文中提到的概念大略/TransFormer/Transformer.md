@@ -2,6 +2,9 @@
 上面是transformer的论文结构原图，主要是两个部分，左边为编码器，右边为解码器。实际应用时，不一定是使用全部。<br>
 对于编码器:<br>
 论文中所说的N=6，当然这个可以调节。为了便利残差连接，将每个layer/sub-layer的输出维度设置为相同的（论文中为d=512）<br>
+<br>
+<br>
+
 <img src="layer_norm.png" alt="layer_norm" width="300"><br>
 这里讲了一个layer_norm的东西（没错，在结构图中的“Add & Norm”的Norm指的就是layer_norm），以及与平时经常使用的batch_norm的区别。见图的左下即为普通的batch_norm，是对于batch中的每个特征向量进行normalization（均值变成0，方差变1）。<br>
 右下即为layer_norm的理解，但结合上面的图比较好理解，是对于每个 样本 来进行normlization。<br>
@@ -18,12 +21,16 @@ Q（query）、K（key）、V（value）<br>
 <br>
 ![alt text](Dot-Product.png)
 <br>
+实际上，不用说也知道，Q可能是矩阵形式的~<br>
 名字叫Scaled Dot-Product Attention，（加了Scaled是因为除了一个根号下dk）据说是最简单的注意力机制了。。。。<br>
 这里面Q和K矩阵的行向量长度是等长的（都是dk），不过好像现在有很多方法可以做到不等长。<br>
-看图中左边将Q向量与K的行向量做内积（长度相等时，两个向量内积越大，说明二者相似度越高~）<br>
+看下图中左边将Q的行向量与K的行向量做内积（长度相等时，两个向量内积越大，说明二者相似度越高~）<br>
+注意这个公式中是将K矩阵转置后做的Q与K的矩阵相乘，而下图所画的K矩阵是没有进行转置的。<br>
 除以根号dk，用softmax得到各项权重（各项非负，相加为一）。<br>
-实际上，Q可能是矩阵形式的~<br>
+<br>
+<br>
 ![alt text](image.png)<br>
+<br>
 这个图如果方便理解的话，可以首先代入n=1，这样的话看，就是输入一句dk长度的序列，得到一句长度为dv输出。<br>
 <br>
 ![alt text](image-1.png)<br>
