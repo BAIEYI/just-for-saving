@@ -93,8 +93,11 @@ class Transformer(nn.Module):
 
 class ViT(nn.Module):
     def __init__(self, *, image_size, patch_size, num_classes, dim, depth, heads, mlp_dim, pool = 'cls', channels = 3, dim_head = 64, dropout = 0., emb_dropout = 0.):
+    #在 __init__ 方法的参数列表中，* 表示所有随后的参数必须以关键字参数的形式传递，即通过参数名显式指定值。
+    #例如，用的时候只能以vit_model = ViT(image_size=224,…………）这种形式，而不能vit_model = ViT(224…………)这种形式。
+    #使用 * 的好处是它提高了代码的可读性，使得在调用函数时更清楚每个参数的含义，同时避免了因参数顺序导致的错误
         super().__init__()
-        image_height, image_width = pair(image_size)
+        image_height, image_width = pair(image_size)#好聪明的方法，这样就可以做好设置了。
         patch_height, patch_width = pair(patch_size)
 
         assert image_height % patch_height == 0 and image_width % patch_width == 0, 'Image dimensions must be divisible by the patch size.'
@@ -102,6 +105,7 @@ class ViT(nn.Module):
         num_patches = (image_height // patch_height) * (image_width // patch_width)
         patch_dim = channels * patch_height * patch_width
         assert pool in {'cls', 'mean'}, 'pool type must be either cls (cls token) or mean (mean pooling)'
+        #使用全局池化或者添加额外cls token。
 
         self.to_patch_embedding = nn.Sequential(
             Rearrange('b c (h p1) (w p2) -> b (h w) (p1 p2 c)', p1 = patch_height, p2 = patch_width),
@@ -117,7 +121,7 @@ class ViT(nn.Module):
         self.transformer = Transformer(dim, depth, heads, dim_head, mlp_dim, dropout)
 
         self.pool = pool
-        self.to_latent = nn.Identity()
+        self.to_latent = nn.Identity()#nn.Identity() 是一个简单的模块，它不做任何改变地返回其输入。这个模块通常用于模型定义中，当你需要一个模块，但又不希望对输入执行任何操作时。
 
         self.mlp_head = nn.Linear(dim, num_classes)
 
@@ -125,14 +129,14 @@ class ViT(nn.Module):
         x = self.to_patch_embedding(img)
         b, n, _ = x.shape
 
-        cls_tokens = repeat(self.cls_token, '1 1 d -> b 1 d', b = b)
-        x = torch.cat((cls_tokens, x), dim=1)
-        x += self.pos_embedding[:, :(n + 1)]
+        cls_tokens = repeat(self.cls_token, '1 1 d -> b 1 d', b = b)#repeat 函数在 PyTorch 中用于创建一个新的张量，该张量是通过重复原始张量的某些维度来形成的。这里重复了b次。
+        x = torch.cat((cls_tokens, x), dim=1)#将cls与x进行拼接。
+        x += self.pos_embedding[:, :(n + 1)]#虽然是加上去的，但是self.pos_embedding仍然可以进行训练。
         x = self.dropout(x)
 
         x = self.transformer(x)
 
-        x = x.mean(dim = 1) if self.pool == 'mean' else x[:, 0]
+        x = x.mean(dim = 1) if self.pool == 'mean' else x[:, 0]#如果不采用全局平均池化，就用cls，这里写的十分简洁，就是找了x的序列中的第一个token，也就是cls token作为输出。
 
         x = self.to_latent(x)
         return self.mlp_head(x)
